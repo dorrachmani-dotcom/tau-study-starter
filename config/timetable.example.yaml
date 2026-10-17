@@ -1,0 +1,17 @@
+# דוגמה — הקובץ האמיתי נוצר ב: python -m src.timetable --propose
+confirmed: false
+courses:
+- course: הסתברות וסטטיסטיקה
+  number: 03682002
+  summarize: true
+  lessons:
+  - kind: שיעור
+    group: '01'
+    day: ראשון
+    time: '10:00'
+    place: דן דוד 002
+  - kind: תרגיל
+    group: '02'
+    day: שלישי
+    time: '11:00'
+    place: ''

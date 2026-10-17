@@ -1,0 +1,10 @@
+# email_to: לאן לשלוח (ריק = לכתובת ה-Gmail שלך)
+# monthly_cap_usd: תקרה חודשית — מעליה הכל נעצר ונשלחת הודעה
+# lookback_days: כמה ימים אחורה לחפש שיעורים שעוד לא סוכמו
+# missing_after_hours: אחרי כמה שעות בלי הקלטה לחפש בקבוצה אחרת
+email_to: ''
+monthly_cap_usd: 8.0
+lookback_days: 3
+missing_after_hours: 20
+summary_model: gemini-3.8-flash
+transcribe_model: gemini-3.8-flash

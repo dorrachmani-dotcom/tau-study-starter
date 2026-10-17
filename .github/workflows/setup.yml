@@ -1,0 +1,43 @@
+name: setup — check the login, propose my timetable
+
+on:
+  workflow_dispatch:
+    inputs:
+      step:
+        description: 'feasibility = can GitHub log in to the university?   timetable = read my timetable from my.tau'
+        required: true
+        default: feasibility
+        type: choice
+        options: [feasibility, timetable]
+
+permissions:
+  contents: write
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      TAU_USERNAME: ${{ secrets.TAU_USERNAME }}
+      TAU_ID: ${{ secrets.TAU_ID }}
+      TAU_PASSWORD: ${{ secrets.TAU_PASSWORD }}
+      PYTHONIOENCODING: utf-8
+      TZ: Asia/Jerusalem
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - run: python -m src.feasibility
+        if: github.event.inputs.step == 'feasibility'
+      - name: propose the timetable (config/timetable.yaml, confirmed: false)
+        if: github.event.inputs.step == 'timetable'
+        run: |
+          python -m src.timetable --propose
+          git config user.name "study-bot"
+          git config user.email "study-bot@users.noreply.github.com"
+          git add config/timetable.yaml state
+          git diff --cached --quiet || git commit -m "proposed timetable — check and set confirmed: true"
+          git push
